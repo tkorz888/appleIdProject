@@ -1,0 +1,9 @@
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//=require lib/bootstrap.js
+//=require lib/metisMenu.js
+//=require lib/jquery.dataTables.js
+//=require lib/dataTables.bootstrap.js
+//=require lib/dataTables.responsive.js
+//=require lib/sb-admin-2.js

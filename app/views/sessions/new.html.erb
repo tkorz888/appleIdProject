@@ -1,0 +1,42 @@
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+          <div class="login-panel panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">欢迎登录</h3>
+              </div>
+
+              <div class="panel-body">
+
+                  <%= simple_form_for :user, url: '/login' do |f| %>
+                      <fieldset>
+                          <div class="form-group">
+                              <%= f.text_field :login,class: "form-control",placeholder: "登录名",type:  "email" %>
+                          </div>
+                          <div class="form-group">
+                              <%= f.password_field :password ,class: "form-control",placeholder: "密码"  %>
+                          </div>
+                        
+
+                          <!-- Change this to a button or input when using this as a form -->
+                          <%= f.submit "登录",:class=>"btn btn-lg btn-success btn-block" %>
+                         
+                      </fieldset>
+                  <%end%>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title">去注册</h3>
+          </div>
+          
+          <div class="panel-body">
+            <%= link_to "去注册", "/signup",:class=>"btn btn-lg btn-success btn-block" %> 
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
