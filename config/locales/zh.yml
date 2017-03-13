@@ -87,34 +87,28 @@
       task: 任务
       task_record: 任务执行记录
       account: 苹果账号
+   
     attributes:
-      phone:
-        name: 机器名
-        uid: 识别码
-        version: 版本号
-        network: 网络
-        auth: 是否授权
-        online: 是否在线
-        group_id: 分组
-      group:
-        name: 名称
-        desc: 备注
-      wechat_config:
-        group_id: 设备分组
-        create_post: 主动发朋友圈
-        repost_news: 自动转发腾讯新闻
-        agree_friend: 是否自动同意好友请求
-        add_contact_friend:  自动添加通讯录好友
-        max_contact_perday:  每日添加通讯录上限
-        can_chat:  是否自动聊天
-        chat_words:  聊天打招呼句子
-        start_time:  开始时间
-        end_time: 结束时间
-        work_minutes:  工作时长(单位：分钟)
-        rest_minutes:  休息时长(单位：分钟)
-        stand: 开启站街
-        stand_start_time:  站街结束时间
-        stand_end_time:  站街结束时间
+      user:
+        password: 密码
+        password_confirmation: 确认密码
+      account:
+        login: 登录名
+        password: 密码
+        mail: 邮箱
+        mailpassword: 邮箱密码 
+        ask1: 问题一
+        answer1: 问题一答案
+        ask2: 问题二
+        answer2: 问题二答案
+        ask3: 问题三
+        answer3: 问题三答案
+        firstname: firstname
+        lastname: lastname
+        birthday: 生日
+        country: 国家
+        state: 状态
+        user_id: 用户ID
     errors:
       messages:
         record_invalid: "验证未通过"

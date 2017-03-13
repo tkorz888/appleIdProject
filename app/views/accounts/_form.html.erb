@@ -3,9 +3,9 @@
 
   <div class="form-inputs">
     <%= f.input :login %>
-    <%= f.input :password %>
+    <%= f.input :password,:as=>:string%>
     <%= f.input :mail %>
-    <%= f.input :mailpassword %>
+    <%= f.input :mailpassword,:as=>:string %>
     <%= f.input :ask1 %>
     <%= f.input :answer1 %>
     <%= f.input :ask2 %>
@@ -15,9 +15,9 @@
     <%= f.input :firstname %>
     <%= f.input :lastname %>
     <%= f.input :birthday %>
-    <%= f.input :country %>
+    <%= f.input :country,:as=>:string %>
     <%= f.input :state %>
-    <%= f.input :user_id %>
+    <%= f.input :user_id%>
   </div>
 
   <div class="form-actions">

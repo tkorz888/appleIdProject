@@ -4,7 +4,18 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = Account.all
+    @q = Account.ransack(params[:q])
+    if params[:commit].to_s.include? "下载"
+      @accounts =  @q.result
+      send_data @accounts.to_csv,:type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=账号.csv"
+    else
+       @accounts =  @q.result.paginate(:page => params[:page])
+      respond_to do |format|
+        format.html {
+         
+        }
+      end
+    end
   end
 
   # GET /accounts/1
@@ -61,6 +72,20 @@ class AccountsController < ApplicationController
     end
   end
 
+  def import
+    Account.import(params[:file])
+    redirect_to accounts_url, notice: "导入成功."
+  end
+
+  def batch_download
+    @accounts = Account.where(:id=>params[:id])
+    respond_to do |format| 
+      format.csv {
+       send_data @accounts.to_csv, :type => 'text/csv; charset=utf-8; header=present', :disposition => "attachment; filename=账号.csv"
+     }
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_account

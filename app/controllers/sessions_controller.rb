@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       # logged in when they navigate around our website.
       session[:user_id] = user.id
       flash[:notice] = "登录成功"
-      redirect_to '/users'
+      redirect_to '/accounts'
     else
       flash[:notice] = "用户名密码错误"
     # If user's login doesn't work, send them back to the login form.

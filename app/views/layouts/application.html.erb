@@ -39,14 +39,17 @@
                 </button>
                 <span class="navbar-brand">微信群控
                 <%if current_user%>
-                    欢迎您：<%=current_user.login%>
+                    欢迎您：<%=current_user.login%>,您的ID是<%=current_user.id%>
                 <%end%>
                 </span>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                
+               
+               
+                  
+             
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -54,7 +57,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
+                        <li><a href="<%=edit_user_path(current_user)%>"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
@@ -75,7 +78,7 @@
                             </li>
                         <%end%>
                         <li>
-                            <a href="/new_accounts"><i class="fa fa-dashboard fa-fw"></i>苹果账号</a>
+                            <a href="/accounts"><i class="fa fa-dashboard fa-fw"></i>苹果账号</a>
                         </li>
                        
                     </ul>

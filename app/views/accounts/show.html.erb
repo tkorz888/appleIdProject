@@ -1,84 +1,24 @@
-<p id="notice"><%= notice %></p>
+<%= simple_form_for(@account) do |f| %>
+  <%= f.error_notification %>
 
-<p>
-  <strong>Login:</strong>
-  <%= @account.login %>
-</p>
+  <div class="form-inputs">
+    <%= f.input :login,:readonly=>true %>
+    <%= f.input :password ,:as=>:string,:readonly=>true %>
+    <%= f.input :mail ,:readonly=>true %>
+    <%= f.input :mailpassword ,:readonly=>true %>
+    <%= f.input :ask1 ,:readonly=>true %>
+    <%= f.input :answer1 ,:readonly=>true %>
+    <%= f.input :ask2 ,:readonly=>true %>
+    <%= f.input :answer2 ,:readonly=>true %>
+    <%= f.input :ask3 ,:readonly=>true %>
+    <%= f.input :answer3 ,:readonly=>true %>
+    <%= f.input :firstname ,:readonly=>true %>
+    <%= f.input :lastname ,:readonly=>true %>
+    <%= f.input :birthday ,:readonly=>true %>
+    <%= f.input :country,:as=>:string ,:readonly=>true %>
+    <%= f.input :state ,:readonly=>true %>
+    <%= f.input :user_id ,:readonly=>true %>
+  </div>
 
-<p>
-  <strong>Password:</strong>
-  <%= @account.password %>
-</p>
-
-<p>
-  <strong>Mail:</strong>
-  <%= @account.mail %>
-</p>
-
-<p>
-  <strong>Mailpassword:</strong>
-  <%= @account.mailpassword %>
-</p>
-
-<p>
-  <strong>Ask1:</strong>
-  <%= @account.ask1 %>
-</p>
-
-<p>
-  <strong>Answer1:</strong>
-  <%= @account.answer1 %>
-</p>
-
-<p>
-  <strong>Ask2:</strong>
-  <%= @account.ask2 %>
-</p>
-
-<p>
-  <strong>Answer2:</strong>
-  <%= @account.answer2 %>
-</p>
-
-<p>
-  <strong>Ask3:</strong>
-  <%= @account.ask3 %>
-</p>
-
-<p>
-  <strong>Answer3:</strong>
-  <%= @account.answer3 %>
-</p>
-
-<p>
-  <strong>Firstname:</strong>
-  <%= @account.firstname %>
-</p>
-
-<p>
-  <strong>Lastname:</strong>
-  <%= @account.lastname %>
-</p>
-
-<p>
-  <strong>Birthday:</strong>
-  <%= @account.birthday %>
-</p>
-
-<p>
-  <strong>Country:</strong>
-  <%= @account.country %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%= @account.state %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @account.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_account_path(@account) %> |
-<%= link_to 'Back', accounts_path %>
+  
+<% end %>

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(:page=>params[:page],:per_page=>1)
   end
 
   # GET /users/1
@@ -74,6 +74,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:login,:password,:password_confirmation)
     end
+    
     def admin_user_params
       params.require(:user).permit(:login, :password_digest, :state, :is_admin,:password,:password_confirmation)
     end

@@ -1,57 +1,62 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Accounts</h1>
+<div class="row" style="padding-top:20px;">
+  <%= simple_form_for :account, url: '/accounts' do |f| %>
+    <label class="string required" for="account_login">登录名含有</label>
+    <%= f.search_field :login %>
+    <label class="string required" for="account_login">邮箱含有</label>
+    <%= f.search_field :mail%>
+    <%= f.submit "搜索"%>
+    <%= submit_tag '下载搜索结果'%>
+  <% end %>
+<br />
+<div class="btn-group">
+  <input class="ok" onclick="select_all()" type="button" value="全选" />
+  <input class="ok" onclick="select_none()" type="button" value="清空" />
+  <input class="ok" onclick="select_reverse()" type="button" value="反选" />
+</div>
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          用户列表
+      </div>
+      <!-- /.panel-heading -->
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                 <th></th>
+                <th>Login</th>
+                
+                <th>User</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Login</th>
-      <th>Password</th>
-      <th>Mail</th>
-      <th>Mailpassword</th>
-      <th>Ask1</th>
-      <th>Answer1</th>
-      <th>Ask2</th>
-      <th>Answer2</th>
-      <th>Ask3</th>
-      <th>Answer3</th>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Birthday</th>
-      <th>Country</th>
-      <th>State</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+            <tbody>
+              <%= form_tag( {:controller=>"accounts",:action => 'batch_download',:format=>"csv"}, {:onsubmit => "return deleteelse(this);"}) do %>
+  
+                <% @accounts.each do |account| %>
+                  <tr>
+                    <td><%= check_box_tag('id[]', account.id.to_s, false, :id => 'id' + account.id.to_s, :class => 'entry-id')%></td>
+                    <td><%= account.login %></td>
+                    
+                    <td><%= account.user_id %></td>
+                    <td><%= link_to 'Show', account %></td>
+                    <td><%= link_to 'Edit', edit_account_path(account) %></td>
+                    <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+                <%= submit_tag '下载本页打钩的', :class => 'btn btn-primary' %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <tbody>
-    <% @accounts.each do |account| %>
-      <tr>
-        <td><%= account.login %></td>
-        <td><%= account.password %></td>
-        <td><%= account.mail %></td>
-        <td><%= account.mailpassword %></td>
-        <td><%= account.ask1 %></td>
-        <td><%= account.answer1 %></td>
-        <td><%= account.ask2 %></td>
-        <td><%= account.answer2 %></td>
-        <td><%= account.ask3 %></td>
-        <td><%= account.answer3 %></td>
-        <td><%= account.firstname %></td>
-        <td><%= account.lastname %></td>
-        <td><%= account.birthday %></td>
-        <td><%= account.country %></td>
-        <td><%= account.state %></td>
-        <td><%= account.user_id %></td>
-        <td><%= link_to 'Show', account %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<%=will_paginate @accounts, renderer: BootstrapPagination::Rails%>
 <br>
-
 <%= link_to 'New Account', new_account_path %>
