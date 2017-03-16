@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312094839) do
+ActiveRecord::Schema.define(version: 20170316092107) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "login"
@@ -29,17 +29,21 @@ ActiveRecord::Schema.define(version: 20170312094839) do
     t.string   "country"
     t.integer  "state"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "parent_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "login"
     t.string   "password_digest"
     t.integer  "state",           default: 0
-    t.integer  "is_admin",        default: 0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "ancestry"
+    t.string   "secret"
+    t.boolean  "is_admin",        default: false
+    t.index ["ancestry"], name: "index_users_on_ancestry", using: :btree
   end
 
 end

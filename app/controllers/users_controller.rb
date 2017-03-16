@@ -15,6 +15,9 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    if params[:user_id].present?
+      @invi_user = User.find_by_id(params[:user_id])
+    end
     @user = User.new
     render :layout=>"user"
   end
@@ -27,7 +30,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    if params[:parent_id].present?
+      @user.parent = User.find_by_id(params[:parent_id])
+    end
     respond_to do |format|
       if @user.save
         format.html { redirect_to "/login", notice: '注册成功，去登录吧' }
@@ -72,10 +77,10 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:login,:password,:password_confirmation)
+      params.require(:user).permit(:login,:password,:password_confirmation,:parent_id)
     end
     
     def admin_user_params
-      params.require(:user).permit(:login, :password_digest, :state, :is_admin,:password,:password_confirmation)
+      params.require(:user).permit(:login, :password_digest, :state, :is_admin,:password,:password_confirmation,:parent_id)
     end
 end

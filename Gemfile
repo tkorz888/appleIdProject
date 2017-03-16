@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'will_paginate', '~> 3.1.0'
 # Use Capistrano for deployment
+gem 'ancestry'
 # gem 'capistrano-rails', group: :development
 #import
 # export

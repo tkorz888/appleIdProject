@@ -7,7 +7,7 @@
     <%= f.input :password_confirmation %>
     <%if current_user.is_admin?%>
       <%= f.input :login %>
-      <%= f.input :state %>
+      <%= f.input :state ,:collection => User.states.invert%>
       <%= f.input :is_admin %>
     <%end%>
   </div>

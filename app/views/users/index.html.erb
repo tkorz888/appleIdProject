@@ -14,23 +14,24 @@
           <table class="table table-hover">
             <thead>
                 <tr>
-                  <th>Login</th>
-                  
-                  <th>State</th>
-                  <th>Is admin</th>
+                  <th>ID</th>
+                  <th>登录名</th>
+                  <th>状态</th>
+                  <th>上级</th>
+                  <th>下级账号数</th>
                   <th colspan="3"></th>
                 </tr>
             </thead>
             <tbody>
               <% @users.each do |user| %>
                 <tr>
+                  <td><%= user.id %></td>
                   <td><%= user.login %></td>
-                  
-                  <td><%= user.state %></td>
-                  <td><%= user.is_admin %></td>
-                  <td><%= link_to 'Show', user %></td>
-                  <td><%= link_to 'Edit', edit_user_path(user) %></td>
-                  <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <td><%= user.state_to_s %></td>
+                  <td><%= user.parent.try(:login)%></td>
+                  <td><%= user.children.count%></td>
+                  <td><%= link_to '显示', user %></td>
+                  <td><%= link_to '编辑', edit_user_path(user) %></td>
                 </tr>
               <% end %>
             </tbody>
@@ -40,4 +41,4 @@
     </div>
   </div>
 </div>
-<%=will_paginate @users%>
+<%=will_paginate @users,renderer: BootstrapPagination::Rails%>

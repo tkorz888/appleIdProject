@@ -11,7 +11,17 @@ class Account < ApplicationRecord
 
   scope :by_user_id, ->(user_id) { where(user_id: user_id)}
   validates :mail, :uniqueness =>true
-
+  after_create :init_parent_user_id
+  def init_parent_user_id
+    if self.user.present? && self.user.root?
+       self.parent_user_id = self.user_id
+      self.save
+    end
+    if self.parent_user_id.blank?
+      self.parent_user_id = self.user.parent.id if self.user.present? && self.user.parent.present?
+      self.save
+    end
+  end
   STATES = {
     "0" => "初始化",
     "1" => "注册成功",

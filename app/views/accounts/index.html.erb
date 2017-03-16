@@ -1,20 +1,64 @@
+<div class="row" >
+  <%= search_form_for @q do |f| %>
+    <%if current_user.is_admin?%>
+     <div class="col-lg-2">  
+        <label for="q_app_id_cont">账号归属</label>
+        <div class="form-inputs">
+          <%= f.search_field :parent_user_id_eq,:class=>"form-control" %>
+        </div>
+     </div>
+    <%elsif current_user.root?%>
+      <div class="col-lg-2">  
+        <label for="q_app_id_cont">账号归属</label>
+        <div class="form-inputs">
+          <%= f.select :user_id_eq, options_for_select(current_user.collection_data,(params[:q]||{})[:user_id_eq]),{}, {:include_blank => "全部",:class=>"form-control select"} %>
+        </div>
+     </div>
+   <%end%>
+    <div class="col-lg-2">  
+      <label for="q_app_id_cont">登录名</label>
+      <div class="form-inputs">
+        <%= f.search_field :login_cont,:class=>"form-control" %>
+      </div>
+   </div>
+   <div class="col-lg-2" >
+      <label for="q_app_id_cont">状态</label>
+      <div class="form-inputs">
+      <%= f.select :state_eq, options_for_select(Account::STATES.collect{|k,v| [v,k]}.insert(0, "全部"),(params[:q]||{})[:state_eq]),{}, {:include_blank => "全部",:class=>"form-control select"} %>
+      </div>
+    </div>
+    <div class="col-lg-2">  
+      <label for="q_app_id_cont">每页多少个</label>
+      <div class="form-inputs">
+        <input class="form-control" type="search" name="per_page" value ="<%=@per_page%>" id="q_per_page">
+      </div>
+   </div>
+     <div class="col-lg-2" style="margin-top:25px;">
+      <div class="form-actions">
+        <%= f.submit "搜索" ,:class=>"btn btn-primary"%>
+      </div>
+    </div>
 
-<div class="row" style="padding-top:20px;">
-  <%= simple_form_for :account, url: '/accounts' do |f| %>
-    <label class="string required" for="account_login">登录名含有</label>
-    <%= f.search_field :login %>
-    <label class="string required" for="account_login">邮箱含有</label>
-    <%= f.search_field :mail%>
-    <%= f.submit "搜索"%>
-    <%= submit_tag '下载搜索结果'%>
+    <div class="col-lg-2" style="margin-top:25px;">
+      <div class="form-actions">
+        
+        <%= f.submit "下载搜索结果" ,:class=>"btn btn-primary"%>
+      </div>
+    </div>
+    
+    
+   
   <% end %>
-<br />
-<div class="btn-group">
-  <input class="ok" onclick="select_all()" type="button" value="全选" />
-  <input class="ok" onclick="select_none()" type="button" value="清空" />
-  <input class="ok" onclick="select_reverse()" type="button" value="反选" />
 </div>
-  <div class="col-lg-12">
+
+
+<div class="btn-group row"  style="padding-top:20px;padding-left: 20px;">
+  <input class="ok btn btn-primary" onclick="select_all()" type="button" value="全选" />
+  <input class="ok btn btn-primary" onclick="select_none()" type="button" value="清空" />
+  <input class="ok btn btn-primary" onclick="select_reverse()" type="button" value="反选" />
+</div>
+
+  <div class="col-lg-12" style="padding-top:20px;">
     <div class="panel panel-default">
       <div class="panel-heading">
           用户列表
@@ -26,25 +70,26 @@
             <thead>
               <tr>
                  <th></th>
-                <th>Login</th>
-                
-                <th>User</th>
+                <th>登录名</th>
+                <%if current_user.root?%>
+                  <th>账号归属</th>
+                <%end%>
                 <th colspan="3"></th>
               </tr>
             </thead>
 
             <tbody>
               <%= form_tag( {:controller=>"accounts",:action => 'batch_download',:format=>"csv"}, {:onsubmit => "return deleteelse(this);"}) do %>
-  
                 <% @accounts.each do |account| %>
                   <tr>
                     <td><%= check_box_tag('id[]', account.id.to_s, false, :id => 'id' + account.id.to_s, :class => 'entry-id')%></td>
                     <td><%= account.login %></td>
-                    
-                    <td><%= account.user_id %></td>
-                    <td><%= link_to 'Show', account %></td>
-                    <td><%= link_to 'Edit', edit_account_path(account) %></td>
-                    <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <%if current_user.root?%>
+                      <td><%= account.user.try(:login)%></td>
+                    <%end%>
+                    <td><%= link_to '显示', account %></td>
+                    <td><%= link_to '编辑', edit_account_path(account) %></td>
+                    <td><%= link_to '删除', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
                 <%= submit_tag '下载本页打钩的', :class => 'btn btn-primary' %>
@@ -58,5 +103,4 @@
 </div>
 
 <%=will_paginate @accounts, renderer: BootstrapPagination::Rails%>
-<br>
-<%= link_to 'New Account', new_account_path %>
+

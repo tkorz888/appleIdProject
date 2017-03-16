@@ -92,6 +92,10 @@
       user:
         password: 密码
         password_confirmation: 确认密码
+        login: 登录名
+        state: 状态
+        is_admin: 是否是管理员
+        secret: 接口秘钥
       account:
         login: 登录名
         password: 密码

@@ -1,0 +1,8 @@
+<p id="notice"><%= notice %></p>
+<h2>导入（导入格式要求Demo：<a href="http://7o51ui.com1.z0.glb.clouddn.com/%E8%B4%A6%E5%8F%B7Demo.xlsx">EXCEL </a>| <a href="http://7o51ui.com1.z0.glb.clouddn.com/%E8%B4%A6%E5%8F%B7Demo.csv">CSV</a>）</h2>
+<%= simple_form_for  :account, url: import_accounts_path, multipart: true do |f|%>
+  <%= f.input :file,as: :file %>
+  <%= f.submit "上传",:class=>"btn btn-success btn-block" %>
+<% end %>
+<br /><br /><br />
+

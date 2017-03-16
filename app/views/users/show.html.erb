@@ -1,28 +1,29 @@
 <div class="row" style="padding-top:20px;">
   <div class="col-lg-12">
     <div class="page-header">
-      <%= link_to users_path, class: 'btn btn-default' do %>
-        <span class="glyphicon glyphicon-list-alt"></span>
-        Back
-      <% end %>
-      <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
-        <span class="glyphicon glyphicon-pencil"></span>
-        Edit
-      <% end %>
+      
      
     </div>
 
     <dl class="dl-horizontal">
-     
+      <dt>ID:</dt>
+      <dd><%= @user.id %></dd>
       <dt>登录名:</dt>
       <dd><%= @user.login %></dd>
       <dt>状态:</dt>
-      <dd><%= @user.state %></dd>
-      <dt>是否是管理员:</dt>
-      <dd><%= @user.is_admin %></dd>
-
-
-
+      <dd><%= @user.state_to_s %></dd>
+      
+      <dt>接口秘钥，请妥善保管:</dt>
+      <dd><%= @user.secret %></dd>
+      <%if @user.root?%>
+        <dt>下级账号数:</dt>
+        <dd><%= @user.children.count %></dd>
+        <dt>邀请注册链接:</dt>
+        <dd><%= "http://zzz?user_id=#{@user.id}" %></dd>
+      <%else%>
+        <dt>上级:</dt>
+        <dd><%= @user.parent.try(:login) %></dd>
+      <%end%>
     </dl>
   </div>
 </div>

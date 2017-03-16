@@ -14,6 +14,7 @@
     <%= stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
     
     
+    <%= csrf_meta_tag %>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,7 +57,8 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        
+                        <li><a href="<%=user_path(current_user)%>"><i class="fa fa-gear fa-fw"></i> 个人信息 </a>
+                        </li>
                         <li><a href="<%=edit_user_path(current_user)%>"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
@@ -77,9 +79,8 @@
                                 <a href="/users"><i class="fa fa-dashboard fa-fw"></i>账号</a>
                             </li>
                         <%end%>
-                        <li>
-                            <a href="/accounts"><i class="fa fa-dashboard fa-fw"></i>苹果账号</a>
-                        </li>
+                        <%= nav2 "苹果账号", accounts_path, "accounts", "fa-database  "  %>
+                         <%= nav2 "导入账号", "/accounts/import", "accounts", "fa-upload"  %>
                        
                     </ul>
                 </div>
@@ -87,14 +88,14 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="padding-top:30px;">
             <% flash.each do |name, msg| %>
-    <% name = "success" if name.to_s == "notice"%>
-    <%= content_tag :div, msg, :class =>"alert alert-#{name}" %>
-    <% end %>
+            <% name = "success" if name.to_s == "notice"%>
+            <%= content_tag :div, msg, :class =>"alert alert-#{name}" %>
+            <% end %>
             <%=yield%>
         </div>
+
         <!-- /#page-wrapper -->
 
     </div>

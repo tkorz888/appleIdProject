@@ -4,6 +4,17 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
+    if params[:q].present?
+      if params[:q][:state_eq] == '全部'
+        params[:q][:state_eq] = nil
+      end
+
+      if params[:q][:user_id_eq].to_s == '0'
+        params[:q][:user_id_eq] = nil
+        params[:q][:parent_user_id_eq] = current_user.id if current_user.root?
+      end
+    end
+    
     @q = Account.ransack(params[:q])
     if params[:commit].to_s.include? "下载"
       @accounts =  @q.result
@@ -39,7 +50,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        format.html { redirect_to @account, notice: '创建成功.' }
         format.json { render :show, status: :created, location: @account }
       else
         format.html { render :new }
@@ -53,7 +64,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+        format.html { redirect_to @account, notice: '更新成功' }
         format.json { render :show, status: :ok, location: @account }
       else
         format.html { render :edit }
@@ -67,14 +78,21 @@ class AccountsController < ApplicationController
   def destroy
     @account.destroy
     respond_to do |format|
-      format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
+      format.html { redirect_to accounts_url, notice: '删除成功' }
       format.json { head :no_content }
     end
   end
 
   def import
-    Account.import(params[:file])
-    redirect_to accounts_url, notice: "导入成功."
+    if request.post?
+      Account.import(params[:account][:file])
+      redirect_to accounts_url, notice: "导入成功."
+    else
+      respond_to do |format|
+        format.html {}
+        format.json {}
+      end
+    end
   end
 
   def batch_download
