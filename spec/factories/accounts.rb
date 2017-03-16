@@ -1,8 +1,12 @@
 FactoryGirl.define do
   factory :account do
-    login "MyString"
+    sequence :login do |n|
+      "login_#{n}"
+    end
     password "MyString"
-    mail "MyString"
+    sequence :mail do |n|
+      "mail#{n}@qq.com"
+    end
     mailpassword "MyString"
     ask1 "MyString"
     answer1 "MyString"

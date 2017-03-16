@@ -26,9 +26,9 @@ class ApiController < ApplicationController
   # # 上传创建邮箱
   def upload_mail_for_new_account
     # give me email and emailpassword
-    @new_account = NewAccount.find_or_create_by(:mail=>params[:mail])
+    @new_account = Account.find_or_create_by(:mail=>params[:mail])
     @new_account.mailpassword = params[:mailpassword]
-    @new_account.owner_id = params[:owner_id]
+    @new_account.user_id = params[:id]
     if @new_account.save
       render :json=>{:code=>0,:message=>"保存成功"}
     else
@@ -38,7 +38,7 @@ class ApiController < ApplicationController
 
   # 获取一个可用邮箱，去注册apple ID
   def get_one_mail_to_register
-    @new_account = NewAccount.pick_one_pending_account(params[:owner_id])
+    @new_account = Account.pick_one_pending_account(params[:id])
     if @new_account.present?
       render :json=>{:code=>0,:message=>"成功",:account=>@new_account.as_json}
     else
@@ -55,7 +55,7 @@ class ApiController < ApplicationController
       params[:mail] = params[:account]
       params[:success] = "yes"
     end
-    @new_account = NewAccount.find_or_create_by(:mail=>params[:mail])
+    @new_account = Account.find_or_create_by(:mail=>params[:mail])
     if params[:success] == "yes"
       @new_account.state =  1
       @new_account.login  = params[:login] || params[:mail]
@@ -71,7 +71,7 @@ class ApiController < ApplicationController
       @new_account.lastname = params[:lastname] if params[:lastname].present?
       @new_account.birthday = params[:birthday] if params[:birthday].present?
       @new_account.country = params[:country] if params[:country].present?
-      @new_account.owner_id = params[:owner_id] || 1
+      @new_account.user_id = params[:id] || 1
     else
       @new_account.state = 2
     end
@@ -85,11 +85,11 @@ class ApiController < ApplicationController
 
   # 获取一个待激活的邮箱，密码和激活URL
   def get_one_mail_to_activate
-    @new_account = NewAccount.pick_one_waiting_activate_account(params[:owner_id])
+    @new_account = Account.pick_one_waiting_activate_account(params[:id])
     if @new_account.present?
       render :json=>{:code=>0,:message=>"成功",:account=>@new_account.as_json}
     else
-      render :json=>{:code=>1,:message=>"没有待激活的邮箱",:account=>@new_account.as_json}
+      render :json=>{:code=>-1,:message=>"没有待激活的邮箱",:account=>@new_account.as_json}
     end
   end
 
@@ -100,7 +100,7 @@ class ApiController < ApplicationController
       params[:mail] = params[:account]
       params[:success] = "yes"
     end
-    @new_account = NewAccount.find_by(:mail=>params[:mail])
+    @new_account = Account.find_by(:mail=>params[:mail])
     if params[:success].to_s == "yes"
       @new_account.state = 3
     else

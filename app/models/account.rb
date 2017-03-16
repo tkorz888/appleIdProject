@@ -38,11 +38,13 @@ class Account < ApplicationRecord
 
   def as_json
     {
+      "id": self.id,
       "login": self.login,
       "password": self.password,
       "mail": self.mail,
       "mailpassword": self.mailpassword,
-      "activate_url": self.activate_url
+      "activate_url": self.activate_url,
+      "state": self.state
     }
   end
 

@@ -17,9 +17,12 @@ class UsersController < ApplicationController
   def new
     if params[:user_id].present?
       @invi_user = User.find_by_id(params[:user_id])
+      @user = User.new
+      render :layout=>"user"
+    else
+      render :plain=>"出错了"
     end
-    @user = User.new
-    render :layout=>"user"
+    
   end
 
   # GET /users/1/edit
